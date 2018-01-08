@@ -27,14 +27,7 @@
 }
 
 .pager-link {
-  position: absolute;
+  display: inline-block;
   text-align: center;
   cursor: pointer;
-}
-
-.pager-link-prev {
-  left: 20%
-}
-.pager-link-next {
-  right: 20%;
 }

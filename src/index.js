@@ -8,7 +8,7 @@ import YTSearch from './helpers/youtube_api_search';
 import _ from 'lodash';
 const API_KEY = 'AIzaSyAbOvSXn4Xp17ZAwq6Rz4VIQFBNaL3V1DM';
 const MAX_RESULTS = 3;
-const DEFAULT_TERM = 'surfboards';
+const DEFAULT_TERM = 'angular vs react';
 
 
 class App extends React.Component {
@@ -34,12 +34,14 @@ class App extends React.Component {
         <VideoDetail video={this.state.selectedVideo}/>
 
         <div className='col-md-4'>
-          <VideoList videos={this.state.videos} onSelect={(video) => this.onItemSelect(video)} />
+          <div className='row'>
+            <Pager
+              nextPageToken={this.state.nextPageToken}
+              prevPageToken={this.state.prevPageToken}
+              searchCb={pageToken => this.search(this.state.lastTerm, pageToken)} />
+          </div>
 
-          <Pager
-            nextPageToken={this.state.nextPageToken}
-            prevPageToken={this.state.prevPageToken}
-            searchCb={pageToken => this.search(this.state.lastTerm, pageToken)} />
+          <VideoList videos={this.state.videos} onSelect={(video) => this.onItemSelect(video)} />
         </div>
       </div>
     );

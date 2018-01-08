@@ -97,7 +97,7 @@
 
 	var API_KEY = 'AIzaSyAbOvSXn4Xp17ZAwq6Rz4VIQFBNaL3V1DM';
 	var MAX_RESULTS = 3;
-	var DEFAULT_TERM = 'surfboards';
+	var DEFAULT_TERM = 'angular vs react';
 
 	var App = function (_React$Component) {
 	  _inherits(App, _React$Component);
@@ -136,14 +136,18 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col-md-4' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(_pager2.default, {
+	              nextPageToken: this.state.nextPageToken,
+	              prevPageToken: this.state.prevPageToken,
+	              searchCb: function searchCb(pageToken) {
+	                return _this2.search(_this2.state.lastTerm, pageToken);
+	              } })
+	          ),
 	          _react2.default.createElement(_video_list2.default, { videos: this.state.videos, onSelect: function onSelect(video) {
 	              return _this2.onItemSelect(video);
-	            } }),
-	          _react2.default.createElement(_pager2.default, {
-	            nextPageToken: this.state.nextPageToken,
-	            prevPageToken: this.state.prevPageToken,
-	            searchCb: function searchCb(pageToken) {
-	              return _this2.search(_this2.state.lastTerm, pageToken);
 	            } })
 	        )
 	      );
@@ -20109,7 +20113,7 @@
 	  if (props.prevPageToken) {
 	    links.push(_react2.default.createElement(
 	      "div",
-	      { className: "pager-link pager-link-prev", key: "prev", onClick: function onClick() {
+	      { className: "pager-link col-sm-6", key: "prev", onClick: function onClick() {
 	          return props.searchCb(props.prevPageToken);
 	        } },
 	      "\u2190"
@@ -20118,7 +20122,7 @@
 	  if (props.nextPageToken) {
 	    links.push(_react2.default.createElement(
 	      "div",
-	      { className: "pager-link pager-link-next", key: "next", onClick: function onClick() {
+	      { className: "pager-link col-sm-6", key: "next", onClick: function onClick() {
 	          return props.searchCb(props.nextPageToken);
 	        } },
 	      "\u2192"
