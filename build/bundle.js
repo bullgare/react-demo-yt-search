@@ -116,7 +116,7 @@
 
 	      var videoSearch = _lodash2.default.debounce(function (term) {
 	        return _this2.search(term);
-	      }, 5000);
+	      }, 500);
 
 	      return _react2.default.createElement(
 	        'div',
