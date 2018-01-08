@@ -25,3 +25,16 @@
 .list-group-item:hover {
   background-color: #eeeeee;
 }
+
+.pager-link {
+  position: absolute;
+  text-align: center;
+  cursor: pointer;
+}
+
+.pager-link-prev {
+  left: 20%
+}
+.pager-link-next {
+  right: 20%;
+}

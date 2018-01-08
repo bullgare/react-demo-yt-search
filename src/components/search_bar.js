@@ -12,7 +12,8 @@ class SearchBar extends Component {
       <div className='search-bar'>
         <input
           value={this.state.term}
-          onChange={event => this.onChange(event)} />
+          onChange={event => this.onChange(event)}
+          onKeyUp={event => this.onKeyUp(event)} />
       </div>
     );
   }
@@ -22,6 +23,12 @@ class SearchBar extends Component {
     this.setState({term});
     if (this.props.onTermChange) {
       this.props.onTermChange(term);
+    }
+  }
+
+  onKeyUp(event) {
+    if (event.which === 13) {
+      this.props.onForceSearch(this.state.term);
     }
   }
 }
