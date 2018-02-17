@@ -15,6 +15,6 @@ const Pager = (props) => {
       {links}
     </div>
   );
-}
+};
 
 export default Pager;

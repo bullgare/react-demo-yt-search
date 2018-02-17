@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
+
 import SearchBar from './components/search_bar';
 import VideoList from './components/video_list';
 import VideoDetail from './components/video_detail';
 import Pager from './components/pager';
+import ScrollDetector from './components/scroll_detector';
 import YTSearch from './helpers/youtube_api_search';
-import _ from 'lodash';
+
 const API_KEY = 'AIzaSyAbOvSXn4Xp17ZAwq6Rz4VIQFBNaL3V1DM';
 const MAX_RESULTS = 3;
 const DEFAULT_TERM = 'angular vs react';
@@ -42,6 +45,8 @@ class App extends React.Component {
           </div>
 
           <VideoList videos={this.state.videos} onSelect={(video) => this.onItemSelect(video)} />
+
+          <ScrollDetector/>
         </div>
       </div>
     );
