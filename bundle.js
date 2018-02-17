@@ -111,10 +111,22 @@
 
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-	    _this.state = { videos: [], selectedVideo: null, nextPageToken: null, prevPageToken: null, lastTerm: '' };
+	    _this.timer = null;
+
+
+	    _this.state = {
+	      videos: [],
+	      selectedVideo: null,
+	      nextPageToken: null,
+	      prevPageToken: null,
+	      lastTerm: '',
+	      clickedOutside: false
+	    };
 	    _this.search(DEFAULT_TERM, null, function () {
 	      _this.onItemSelect(_this.state.videos[0]);
 	    });
+
+	    _this.handleOutsideClick = _this.handleOutsideClick.bind(_this);
 	    return _this;
 	  }
 
@@ -129,7 +141,7 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { ref: 'wrapperElement', style: this.generateStyles() },
 	        _react2.default.createElement(_search_bar2.default, {
 	          term: DEFAULT_TERM,
 	          onTermChange: videoSearch,
@@ -175,6 +187,50 @@
 	    key: 'onItemSelect',
 	    value: function onItemSelect(selectedVideo) {
 	      this.setState({ selectedVideo: selectedVideo });
+	    }
+	  }, {
+	    key: 'handleOutsideClick',
+	    value: function handleOutsideClick(e) {
+	      var _this4 = this;
+
+	      this.setState({ clickedOutside: this.checkIsOutside(e.target) });
+	      clearTimeout(this.timer);
+
+	      this.timer = setTimeout(function () {
+	        _this4.setState({ clickedOutside: false });
+	        _this4.timer = null;
+	      }, 1000);
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      document.addEventListener('mousedown', this.handleOutsideClick);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      document.removeEventListener('mousedown', this.handleOutsideClick);
+	    }
+	  }, {
+	    key: 'generateStyles',
+	    value: function generateStyles() {
+	      if (this.state.clickedOutside) {
+	        return { backgroundColor: 'red' };
+	      }
+
+	      return {};
+	    }
+	  }, {
+	    key: 'checkIsOutside',
+	    value: function checkIsOutside(node) {
+	      while (node) {
+	        if (node === this.refs.wrapperElement) {
+	          return false;
+	        }
+	        node = node.parentNode;
+	      }
+
+	      return true;
 	    }
 	  }]);
 
@@ -32555,7 +32611,7 @@
 
 	        _this.state = { scrolled: false, scrollAmount: 0 };
 
-	        _this.handleScroll.bind(_this);
+	        _this.handleScroll = _this.handleScroll.bind(_this);
 	        return _this;
 	    }
 
@@ -32579,20 +32635,12 @@
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var _this3 = this;
-
-	            window.addEventListener('scroll', function () {
-	                return _this3.handleScroll();
-	            });
+	            window.addEventListener('scroll', this.handleScroll);
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
-	            var _this4 = this;
-
-	            window.removeEventListener('scroll', function () {
-	                return _this4.handleScroll();
-	            });
+	            window.removeEventListener('scroll', this.handleScroll);
 	        }
 	    }, {
 	        key: 'render',

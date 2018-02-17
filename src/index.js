@@ -18,17 +18,26 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {videos: [], selectedVideo: null, nextPageToken: null, prevPageToken: null, lastTerm: ''};
+    this.state = {
+      videos: [],
+      selectedVideo: null,
+      nextPageToken: null,
+      prevPageToken: null,
+      lastTerm: '',
+      clickedOutside: false
+    };
     this.search(DEFAULT_TERM, null, () => {
       this.onItemSelect(this.state.videos[0]);
     });
+
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
   render() {
-    const videoSearch = _.debounce(term => this.search(term), 500)
+    const videoSearch = _.debounce(term => this.search(term), 500);
 
     return (
-      <div>
+      <div ref="wrapperElement" style={this.generateStyles()}>
         <SearchBar
           term={DEFAULT_TERM}
           onTermChange={videoSearch}
@@ -65,6 +74,45 @@ class App extends React.Component {
 
   onItemSelect(selectedVideo) {
     this.setState({selectedVideo});
+  }
+
+  timer = null;
+
+  handleOutsideClick(e) {
+    this.setState({ clickedOutside: this.checkIsOutside(e.target) });
+    clearTimeout(this.timer);
+
+    this.timer = setTimeout(() => {
+      this.setState({clickedOutside: false});
+      this.timer = null;
+    }, 1000);
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleOutsideClick);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleOutsideClick);
+  }
+
+  generateStyles() {
+    if (this.state.clickedOutside) {
+      return { backgroundColor: 'red' };
+    }
+
+    return {};
+  }
+
+  checkIsOutside(node) {
+    while (node) {
+      if (node === this.refs.wrapperElement) {
+        return false;
+      }
+      node = node.parentNode;
+    }
+
+    return true;
   }
 }
 

@@ -9,7 +9,7 @@ export default class ScrollDetector extends Component {
 
         this.state = { scrolled: false, scrollAmount: 0 };
 
-        this.handleScroll.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
     }
 
     handleScroll() {
@@ -22,16 +22,16 @@ export default class ScrollDetector extends Component {
             this.timer = setTimeout(() => {
                 this.setState({scrolled: false});
                 this.timer = null;
-            }, 1000)
+            }, 1000);
         }
     }
 
     componentDidMount() {
-        window.addEventListener('scroll', () => this.handleScroll());
+        window.addEventListener('scroll', this.handleScroll);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', () => this.handleScroll());
+        window.removeEventListener('scroll', this.handleScroll);
     }
 
     render() {
